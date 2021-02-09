@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="css/template.css">
+        <script>
+            var lineMode = false;
+            var drawSquare = false;
+            var drawPolygon = false;
+        </script>
+
+        <!-- <script type="text/javascript" src="../Common/webgl-utils.js"></script>
+        <script type="text/javascript" src="../Common/initShaders.js"></script>
+        <script type="text/javascript" src="../Common/MV.js"></script> -->
+    </head>
+
+    <body>
+        <div class="navbar">
+            <button onclick="cursorButton()">Cursor</button>
+            <button onclick="lineButton()">Line</button>
+            <button onclick="squareButton()">Square</button>
+            <button onclick="polygonButton()">Polygon</button>
+            <button>Help</button>
+        </div>
+        <div class="title">
+            WebGL Paint
+        </div>
+        <canvas id="glcanvas" width="pixel">
+            Oops ... your browser doesn't support the HTML5 canvas element
+        </canvas>
+    </body>
+
+    <script>
+        var lineVertices = [];
+        const canvas = document.querySelector('#glcanvas');
+        canvas.width = 1000;
+        canvas.height = 480;
+        // Initialize the GL context
+        const gl = canvas.getContext('webgl');
+
+        if (!gl) {
+            alert('Unable to initialize WebGL. Your browser or machine may not support it.');
+        }
+
+        var shaderProgram = gl.createProgram();
+
+        function setUp(gl, canvas, shaderProgram){
+            /*=================== Shaders ====================*/
+            // Vertex shader source code
+            var vertCode =
+            'attribute vec3 coordinates;' +
+            'void main(void) {' +
+                ' gl_Position = vec4(coordinates, 1.0);' +
+            '}';
+
+            // Create a vertex shader object
+            var vertShader = gl.createShader(gl.VERTEX_SHADER);
+
+            // Attach vertex shader source code
+            gl.shaderSource(vertShader, vertCode);
+
+            // Compile the vertex shader
+            gl.compileShader(vertShader);
+
+            // Fragment shader source code
+            var fragCode =
+            'void main(void) {' +
+                'gl_FragColor = vec4(0.0, 0.0, 0.0, 1);' +
+            '}';
+
+            // Create fragment shader object
+            var fragShader = gl.createShader(gl.FRAGMENT_SHADER);
+
+            // Attach fragment shader source code
+            gl.shaderSource(fragShader, fragCode);
+
+            // Compile the fragmentt shader
+            gl.compileShader(fragShader);
+
+            // Create a shader program object to store
+            // the combined shader program
+
+            // Attach a vertex shader
+            gl.attachShader(shaderProgram, vertShader);
+
+            // Attach a fragment shader
+            gl.attachShader(shaderProgram, fragShader);
+
+            // Link both the programs
+            gl.linkProgram(shaderProgram);
+
+            // Use the combined shader program object
+            gl.useProgram(shaderProgram);
+        }
+
+        setUp(gl, canvas, shaderProgram);
+
+      </script>
+
+      <script type="text/javascript" src="js/buttonClick.js"></script>
+      <script type="text/javascript" src="js/draw.js"></script>
+</html>
