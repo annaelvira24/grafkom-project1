@@ -20,6 +20,8 @@
             <button onclick="squareButton()">Square</button>
             <button onclick="polygonButton()">Polygon</button>
             <button>Help</button>
+            <button onclick="saveData()">Save</button>
+            <button onclick="loadData()">Load</button>
         </div>
         <div class="title">
             WebGL Paint
@@ -27,6 +29,7 @@
         <canvas id="glcanvas" width="pixel">
             Oops ... your browser doesn't support the HTML5 canvas element
         </canvas>
+        <textarea id="jsonText"></textarea>
     </body>
 
     <script>
@@ -98,4 +101,5 @@
 
       <script type="text/javascript" src="js/buttonClick.js"></script>
       <script type="text/javascript" src="js/draw.js"></script>
+      <script type="text/javascript" src="js/fileManager.js"></script>
 </html>
