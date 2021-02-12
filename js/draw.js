@@ -75,6 +75,7 @@ canvasElem.addEventListener('mousedown', (e) =>
             vertexCount += 1;
             if(vertexCount == 2){
                 objects.push({
+                    "name" : "line",
                     "mode" : gl.LINES,
                     "off" : offset,
                     "count" : 2
@@ -95,6 +96,7 @@ canvasElem.addEventListener('mousedown', (e) =>
                 vertices.push(vecTemp[1][1] + deltaX);
 
                 objects.push({
+                    "name" : "square",
                     "mode" : gl.TRIANGLE_STRIP,
                     "off" : offset,
                     "count" : 4
@@ -109,6 +111,7 @@ canvasElem.addEventListener('mousedown', (e) =>
             vertexCount += 1;
             if(vertexCount == numVert){
                 objects.push({
+                    "name" : "polygon",
                     "mode" : gl.TRIANGLE_FAN,
                     "off" : offset,
                     "count" : numVert
