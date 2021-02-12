@@ -1,24 +1,32 @@
 function cursorButton(){
+    cursorMode = true;
     lineMode = false;
-    drawSquare = false;
-    drawPolygon = false;
+    squareMode = false;
+    polygonMode = false;
 }
 
 function lineButton(){
+    cursorMode = false;
     lineMode = true;
-    drawSquare = false;
-    drawPolygon = false;
+    squareMode = false;
+    polygonMode = false;
 }
 
 function squareButton(){
+    cursorMode = false;
     lineMode = false;
-    drawSquare = true;
-    drawPolygon = false;
+    squareMode = true;
+    polygonMode = false;
 }
 
+var numVert;
+
 function polygonButton(){
+    cursorMode = false;
     lineMode = false;
-    drawSquare = false;
-    drawPolygon = true;
+    squareMode = false;
+    polygonMode = true;
+
+    numVert = Number(prompt("Please enter number of vertices of your polygon", 3));
 }
 
