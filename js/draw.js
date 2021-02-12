@@ -106,8 +106,16 @@ canvasElem.addEventListener('mousedown', (e) =>
         }
 
         else if(polygonMode == true){
-            // vecTemp.push(vec);
-
+            vertexCount += 1;
+            if(vertexCount == numVert){
+                objects.push({
+                    "mode" : gl.TRIANGLE_FAN,
+                    "off" : offset,
+                    "count" : numVert
+                });
+                offset += numVert;
+                vertexCount = 0;
+            }
         }
         draw();
     }
