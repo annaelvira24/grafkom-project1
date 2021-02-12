@@ -3,10 +3,16 @@ var area = document.getElementById('jsonText');
 area.style.display = "none";
 
 function saveData(){
-    area.style.display = "block";
     decodedData = decodingData(objects, vertices)
-    area.value = JSON.stringify(decodedData, undefined, 4);
-    alert("Copy text below to your json file");
+    beautifulData = JSON.stringify(decodedData, undefined, 4);
+    
+    var r = confirm("Press OK to download JSON file or Cancel to open in this window");
+    if (r == true) {
+        downloadData(beautifulData);
+    } else {
+        area.style.display = "block";
+        area.value = beautifulData;
+    }
 }
 
 function loadData(){
@@ -27,6 +33,19 @@ function loadData(){
     vertices = encodedData.ver;
     area.style.display = "none";
     draw();
+}
+
+function downloadData(exportObj){
+    var filename = prompt("Please enter JSON filename", "vertexData");
+    if (filename == null) {
+        filename = "vertexData";
+    }
+
+    var a = document.createElement("a");
+    var file = new Blob([exportObj], {type: "application/json"});
+    a.href = URL.createObjectURL(file);
+    a.download = filename + ".json";
+    a.click();
 }
 
 function encodingData(jsonString){
