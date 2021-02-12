@@ -1,24 +1,28 @@
 function cursorButton(){
+    cursorMode = true;
     lineMode = false;
-    drawSquare = false;
-    drawPolygon = false;
+    squareMode = false;
+    polygonMode = false;
 }
 
 function lineButton(){
+    cursorMode = false;
     lineMode = true;
-    drawSquare = false;
-    drawPolygon = false;
+    squareMode = false;
+    polygonMode = false;
 }
 
 function squareButton(){
+    cursorMode = false;
     lineMode = false;
-    drawSquare = true;
-    drawPolygon = false;
+    squareMode = true;
+    polygonMode = false;
 }
 
 function polygonButton(){
+    cursorMode = false;
     lineMode = false;
-    drawSquare = false;
-    drawPolygon = true;
+    squareMode = false;
+    polygonMode = true;
 }
 
