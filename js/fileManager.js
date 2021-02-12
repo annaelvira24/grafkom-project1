@@ -4,12 +4,13 @@ area.style.display = "none";
 
 function saveData(){
     area.style.display = "block";
-    area.value = "Copy this text to your json file\n\n" + JSON.stringify(lineVertices, undefined, 4);
+    area.value = JSON.stringify(lineVertices, undefined, 4);
+    alert("Copy text below to your json file");
 }
 
 function loadData(){
     if(area.style.display === "none"){
-        area.value = "Copy your json file's content here.";
+        area.value = "";
         area.style.display = "block";
         return;
     }
