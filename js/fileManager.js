@@ -4,15 +4,22 @@ area.style.display = "none";
 
 function saveData(){
     area.style.display = "block";
-    area.innerHTML = "Copy this text to your json file\n\n" + JSON.stringify(lineVertices, undefined, 4);
+    area.value = "Copy this text to your json file\n\n" + JSON.stringify(lineVertices, undefined, 4);
 }
 
 function loadData(){
     if(area.style.display === "none"){
-        area.innerHTML = "Copy your json file's content here."
+        area.value = "Copy your json file's content here.";
         area.style.display = "block";
         return;
     }
     
-    area.style.display = "none"
+    try{
+        lineVertices = JSON.parse(area.value);
+        area.style.display = "none";
+        drawLine(gl, shaderProgram, lineVertices);
+    }catch(err){
+        console.log(err);
+        alert("Please check your JSON text");
+    }
 }
