@@ -152,5 +152,19 @@ canvasElem.addEventListener('mousedown', (e) =>
 
 });
 
+canvasElem.addEventListener('mousemove', (e) => {
+    vec2 = getMousePosition(canvasElem, e);
+    if(cursorMode && vec!=null){
+        if(backupVertices == null) backupVertices = vertices;
+        let deltaX = vec2[0] - vec[0]
+        let deltaY = vec2[1] - vec[1]
+        vertices = backupVertices.map((it,idx) => idx%2==0? it+deltaX : it+deltaY);
+        draw()
+    }
+});
 
+canvasElem.addEventListener('mouseup', (e) => {
+    vec = null;
+    backupVertices = null;
+});
 
