@@ -10,11 +10,10 @@ function getMousePosition(canvas, event) {
     return(temp);
 } 
 
-function defineSquare(vec){
-    
-}
 // Create an empty buffer object
 var vertex_buffer = gl.createBuffer();
+// Create an empty buffer object and store color data
+var color_buffer = gl.createBuffer ();
 
 function setUpBuffer(){
     // Bind appropriate array buffer to it
@@ -22,6 +21,8 @@ function setUpBuffer(){
 
     // Unbind the buffer
     gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
 
     /*======= Associating shaders to buffer objects ======*/
     // Bind vertex buffer object
@@ -35,6 +36,18 @@ function setUpBuffer(){
 
     // Enable the attribute
     gl.enableVertexAttribArray(coord);
+
+    // bind the color buffer
+    gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
+         
+    // get the attribute location
+    var color = gl.getAttribLocation(shaderProgram, "color");
+
+    // point attribute to the volor buffer object
+    gl.vertexAttribPointer(color, 3, gl.FLOAT, false,0,0) ;
+
+    // enable the color attribute
+    gl.enableVertexAttribArray(color);
 
     gl.clearColor(0, 0, 0, 0);
 
@@ -51,7 +64,13 @@ function setUpBuffer(){
 function draw(){
     gl.useProgram(shaderProgram);
     // Pass the vertex data to the buffer
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+    // Unbind the buffer
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
 
     for (var i = 0; i<objects.length; i++) {
         console.log(objects[i]);
@@ -74,6 +93,8 @@ canvasElem.addEventListener('mousedown', (e) =>
         if(lineMode == true){
             vertexCount += 1;
             if(vertexCount == 2){
+                colors.push(1,0,0,
+                    0,0,1);
                 objects.push({
                     "name" : "line",
                     "mode" : gl.LINES,
@@ -94,6 +115,10 @@ canvasElem.addEventListener('mousedown', (e) =>
                 vertices.push(vecTemp[0][1] + deltaX);
                 vertices.push(vecTemp[1][0] - deltaY);
                 vertices.push(vecTemp[1][1] + deltaX);
+                colors.push(0,0,1,
+                    0,0,1,
+                    0,0,1,
+                    0,0,1);
 
                 objects.push({
                     "name" : "square",
@@ -109,6 +134,7 @@ canvasElem.addEventListener('mousedown', (e) =>
 
         else if(polygonMode == true){
             vertexCount += 1;
+            colors.push(0,0,1);
             if(vertexCount == numVert){
                 objects.push({
                     "name" : "polygon",

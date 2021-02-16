@@ -12,13 +12,13 @@
 
     <body>
         <div class="navbar">
-            <button onclick="cursorButton()">Cursor</button>
-            <button onclick="lineButton()">Line</button>
-            <button onclick="squareButton()">Square</button>
-            <button onclick="polygonButton()">Polygon</button>
-            <button>Help</button>
-            <button onclick="saveData()">Save</button>
-            <button onclick="loadData()">Load</button>
+            <button id = "button-draw" onclick="cursorButton()">Cursor</button>
+            <button id = "button-draw" onclick="lineButton()">Line</button>
+            <button id = "button-draw" onclick="squareButton()">Square</button>
+            <button id = "button-draw" onclick="polygonButton()">Polygon</button>
+            <button id = "button-help">Help</button>
+            <button id = "button-file" onclick="saveData()">Save</button>
+            <button id = "button-file" onclick="loadData()">Load</button>
         </div>
         <div class="title">
             WebGL Paint
@@ -31,6 +31,7 @@
 
     <script>
         var vertices = [];
+        var colors = [];
         var objects = [];
         var offset = 0;
 
@@ -45,20 +46,24 @@
         }
 
         // Vertex shader source code
-        var vertCode =
-        'attribute vec3 coordinates;' +
-        'void main(void) {' +
-            ' gl_Position = vec4(coordinates, 1.0);' +
-        '}';
+        var vertCode = 'attribute vec3 coordinates;'+
+            'attribute vec3 color;'+
+            'varying vec3 vColor;'+
+                
+            'void main(void) {' +
+                ' gl_Position = vec4(coordinates, 1.0);' +
+                'vColor = color;'+
+            '}';
 
         // Create a vertex shader object
         var vertShader = gl.createShader(gl.VERTEX_SHADER);
 
         // Fragment shader source code
-        var fragCode =
-        'void main(void) {' +
-            'gl_FragColor = vec4(0.0, 0.0, 0.0, 1);' +
-        '}';
+        var fragCode = 'precision mediump float;'+
+            'varying vec3 vColor;'+
+            'void main(void) {'+
+                'gl_FragColor = vec4(vColor, 1.);'+
+            '}';
 
         // Create fragment shader object
         var fragShader = gl.createShader(gl.FRAGMENT_SHADER);
