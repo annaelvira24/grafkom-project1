@@ -3,7 +3,7 @@ var area = document.getElementById('jsonText');
 area.style.display = "none";
 
 function saveData(){
-    decodedData = decodingData(objects, vertices)
+    decodedData = decodingData(objects, vertices, colors)
     beautifulData = JSON.stringify(decodedData, undefined, 4);
     
     var r = confirm("Press OK to download JSON file or Cancel to open in this window");
@@ -31,6 +31,7 @@ function loadData(){
 
     objects = encodedData.obj;
     vertices = encodedData.ver;
+    colors = encodedData.col;
     area.style.display = "none";
     draw();
 }
@@ -52,7 +53,8 @@ function encodingData(jsonString){
     listObject = JSON.parse(area.value);
     result = {
         obj : [],
-        ver : []
+        ver : [],
+        col : []
     }
     
     offset = 0;
@@ -88,24 +90,33 @@ function encodingData(jsonString){
         for(var j = 0; j < listVertex.length; j++){
             result.ver.push(listVertex[j].xAxis);
             result.ver.push(listVertex[j].yAxis);
+            result.col.push(
+                listVertex[j].color.r,
+                listVertex[j].color.g,
+                listVertex[j].color.b
+            );
         }
     }
     return result;
 }
 
-function decodingData(listObject, listVertex){
+function decodingData(listObject, listVertex, listColor){
     result = [];
-
+    
     for (var i = 0; i<listObject.length; i++) {
         var object = {"name" : listObject[i].name, vertices : []}
 
         var offset = listObject[i].off;
         var count = listObject[i].count;
-
         for(var j = offset * 2; j < (offset + count) * 2; j += 2){
             object.vertices.push({
                 xAxis : listVertex[j],
-                yAxis : listVertex[j+1]
+                yAxis : listVertex[j+1],
+                color :  {
+                    r : listColor[j/2*3],
+                    g : listColor[j/2*3+1],
+                    b : listColor[j/2*3+2],
+                }
             });
         }
         result.push(object);
