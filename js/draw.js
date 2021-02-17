@@ -3,8 +3,7 @@ function getMousePosition(canvas, event) {
     let rect = canvas.getBoundingClientRect(); 
     let x = ((event.clientX - rect.left)/(canvas.width))*2-1; 
     let y = -((event.clientY - rect.top)/(canvas.height))*2+1; 
-    console.log("Coordinate x: " + x,  
-                "Coordinate y: " + y);
+    //console.log("Coordinate x: " + x, "Coordinate y: " + y);
     temp.push(x);
     temp.push(y)
     return(temp);
@@ -73,13 +72,13 @@ function draw(){
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
 
     for (var i = 0; i<objects.length; i++) {
-        console.log(objects[i]);
+        //console.log(objects[i]);
         gl.drawArrays(objects[i].mode, objects[i].off, objects[i].count);
     }
 }
 
 var canvasElem = document.querySelector("#glcanvas"); 
-var vec;
+var vec, selectedVertex, selectedObject;
 var vertexCount = 0;
 var vecTemp = [];
 setUpBuffer();
@@ -87,7 +86,28 @@ setUpBuffer();
 canvasElem.addEventListener('mousedown', (e) => 
 { 
     vec = getMousePosition(canvasElem, e);
-    if(!cursorMode){
+    if(resizeMode == true){
+        selectedVertex = -1;
+        selectedObject = -1;
+        for(var i = 0; i < vertices.length; i+=2){
+            if(((vertices[i]).toFixed(1) == (vec[0]).toFixed(1)) 
+            && ((vertices[i+1]).toFixed(1) == (vec[1]).toFixed(1))){
+                selectedVertex = i;
+                break;
+            }
+        }
+        if(selectedVertex != -1){
+            for(var i = objects.length-1; i >= 0; i--){
+                //console.log(objects[i].off)
+                if(objects[i].off < selectedVertex){
+                    selectedObject = i;
+                    break;
+                }
+                selectedObject = 0;
+            }
+        }
+    }
+    else if(!cursorMode){
         vertices.push(vec[0]);
         vertices.push(vec[1]);
         if(lineMode == true){
@@ -148,23 +168,54 @@ canvasElem.addEventListener('mousedown', (e) =>
         }
         draw();
     }
-    console.log(vertices);
+    //console.log(vertices);
 
 });
 
 canvasElem.addEventListener('mousemove', (e) => {
+    if(vec!=null){
     vec2 = getMousePosition(canvasElem, e);
-    if(cursorMode && vec!=null){
-        if(backupVertices == null) backupVertices = vertices;
-        let deltaX = vec2[0] - vec[0]
-        let deltaY = vec2[1] - vec[1]
-        vertices = backupVertices.map((it,idx) => idx%2==0? it+deltaX : it+deltaY);
-        draw()
+        if(cursorMode){
+            if(backupVertices == null) backupVertices = vertices;
+            let deltaX = vec2[0] - vec[0]
+            let deltaY = vec2[1] - vec[1]
+            vertices = backupVertices.map((it,idx) => idx%2==0? it+deltaX : it+deltaY);
+            draw();
+        }
+        else if(resizeMode && selectedObject != -1){
+            //console.log(objects[selectedObject].name);
+            if(objects[selectedObject].name == "line"){
+                vertices[selectedVertex] = vec2[0];
+                vertices[selectedVertex+1] = vec2[1];
+            }
+            else if(objects[selectedObject].name == "square"){
+                let deltaX = vec2[0] - vec[0]
+                let deltaY = vec2[1] - vec[1]
+                let deltaLength = Math.sqrt(pow(deltaX,2) + pow(deltaY,2));
+
+                
+            }
+            draw();
+        }
     }
+    
 });
 
 canvasElem.addEventListener('mouseup', (e) => {
     vec = null;
     backupVertices = null;
+    // }
+    // else if(resizeMode){
+    //     let vec3 = getMousePosition(canvasElem, e);
+    //     if(objects[selectedObject].mode == "line"){
+    //         vertices[selectedVertex] = vec3[0];
+    //         vertices[selectedVertex+1] = vec3[1];
+    //     }
+    //     else if(objects[selectedObject].mode == "square"){
+
+    //         vertices[objects[selectedObject].offset]
+    //     }
+    // }
+
 });
 
