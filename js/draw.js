@@ -81,12 +81,13 @@ var canvasElem = document.querySelector("#glcanvas");
 var vec, selectedVertex, selectedObject;
 var vertexCount = 0;
 var vecTemp = [];
+var backupVertices;
 setUpBuffer();
 
 canvasElem.addEventListener('mousedown', (e) => 
 { 
     vec = getMousePosition(canvasElem, e);
-    if(resizeMode == true){
+    if(resizeMode || cursorMode){
         selectedVertex = -1;
         selectedObject = -1;
         for(var i = 0; i < vertices.length; i+=2){
@@ -97,15 +98,18 @@ canvasElem.addEventListener('mousedown', (e) =>
             }
         }
         if(selectedVertex != -1){
+            console.log(selectedVertex);
+            console.log(objects);
             for(var i = objects.length-1; i >= 0; i--){
                 //console.log(objects[i].off)
-                if(objects[i].off < selectedVertex){
+                if(objects[i].off*2 <= selectedVertex){
                     selectedObject = i;
                     break;
                 }
                 selectedObject = 0;
             }
         }
+        backupVertices = vertices.slice();
     }
     else if(!cursorMode){
         vertices.push(vec[0]);
@@ -135,9 +139,9 @@ canvasElem.addEventListener('mousedown', (e) =>
                 vertices.push(vecTemp[0][1] + deltaX);
                 vertices.push(vecTemp[1][0] - deltaY);
                 vertices.push(vecTemp[1][1] + deltaX);
-                colors.push(0,0,1,
+                colors.push(0,1,0,
                     0,0,1,
-                    0,0,1,
+                    0,1,0,
                     0,0,1);
 
                 objects.push({
@@ -174,26 +178,67 @@ canvasElem.addEventListener('mousedown', (e) =>
 
 canvasElem.addEventListener('mousemove', (e) => {
     if(vec!=null){
-    vec2 = getMousePosition(canvasElem, e);
+        vec2 = getMousePosition(canvasElem, e);
         if(cursorMode){
-            if(backupVertices == null) backupVertices = vertices;
-            let deltaX = vec2[0] - vec[0]
-            let deltaY = vec2[1] - vec[1]
-            vertices = backupVertices.map((it,idx) => idx%2==0? it+deltaX : it+deltaY);
+            let deltaX = vec2[0] - vec[0];
+            let deltaY = vec2[1] - vec[1];
+            if(selectedObject == -1){
+                vertices = backupVertices.map((it,idx) => idx%2==0? it+deltaX : it+deltaY);
+            }
+            else {
+                for(var i = objects[selectedObject].off*2; i < objects[selectedObject].off*2 + objects[selectedObject].count*2; i+=2){
+                    vertices[i] = backupVertices[i] + deltaX;
+                    vertices[i+1] = backupVertices[i+1] + deltaY;
+                }
+            }
+           
             draw();
         }
         else if(resizeMode && selectedObject != -1){
-            //console.log(objects[selectedObject].name);
             if(objects[selectedObject].name == "line"){
-                vertices[selectedVertex] = vec2[0];
-                vertices[selectedVertex+1] = vec2[1];
+                let centerX = (backupVertices[objects[selectedObject].off*2] + backupVertices[objects[selectedObject].off*2+2])/2;
+                let centerY = (backupVertices[objects[selectedObject].off*2+1] + backupVertices[objects[selectedObject].off*2+3])/2;
+                
+                let scaleX = (Math.abs(vec2[0] - centerX))/(Math.abs(vec[0] - centerX));
+                let scaleY = (Math.abs(vec2[1] - centerY))/(Math.abs(vec[1] - centerY));
+
+                var tempVertices = [];
+                for(var i = objects[selectedObject].off*2; i < objects[selectedObject].off*2 + objects[selectedObject].count*2; i++){
+                    tempVertices.push(vertices[i]);
+                }
+
+                for(var i = 0; i<tempVertices.length; i+=2){
+                    tempVertices[i] -= centerX;
+                    tempVertices[i+1] -= centerY;
+                }
+
+                for(var i = 0; i<tempVertices.length; i+=2){
+                    tempVertices[i] = (backupVertices[objects[selectedObject].off*2+i]-centerX)*scaleX;
+                    tempVertices[i+1] =(backupVertices[objects[selectedObject].off*2+i+1]-centerY)*scaleY;
+                }
+
+                for(var i = 0; i<tempVertices.length; i+=2){
+                    tempVertices[i] += centerX;
+                    tempVertices[i+1] += centerY;
+                }
+
+                var j = 0;
+                for(var i = objects[selectedObject].off*2; i < objects[selectedObject].off*2 + objects[selectedObject].count*2; i++){  
+                    vertices[i] = tempVertices[j];
+                    j++;
+                }
             }
             else if(objects[selectedObject].name == "square"){
                 let deltaX = vec2[0] - vec[0]
                 let deltaY = vec2[1] - vec[1]
                 let deltaLength = Math.sqrt(pow(deltaX,2) + pow(deltaY,2));
-
                 
+                let vertexTemp = vertices.slice(objects[selectedObject].offset, objects[selectedObject].offset+8);
+
+                let centerX = (vertexTemp[0] + vertexTemp[6])/2;
+                let centerY = (vertexTemp[1] + vertexTemp[7])/2;
+
+
             }
             draw();
         }
