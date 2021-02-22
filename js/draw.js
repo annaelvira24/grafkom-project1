@@ -139,10 +139,10 @@ canvasElem.addEventListener('mousedown', (e) =>
                 vertices.push(vecTemp[0][1] + deltaX);
                 vertices.push(vecTemp[1][0] - deltaY);
                 vertices.push(vecTemp[1][1] + deltaX);
-                colors.push(0,1,0,
-                    0,0,1,
-                    0,1,0,
-                    0,0,1);
+                colors.push(0.290, 0.223, 0.937,
+                    1, 0.301, 0.458,
+                    0.290, 0.223, 0.937,
+                    1, 0.301, 0.458);
 
                 objects.push({
                     "name" : "square",
