@@ -4,6 +4,7 @@ function cursorButton(){
     lineMode = false;
     squareMode = false;
     polygonMode = false;
+    colorMode = false;
 }
 
 function resizeButton(){
@@ -12,6 +13,7 @@ function resizeButton(){
     lineMode = true;
     squareMode = false;
     polygonMode = false;
+    colorMode = false;
 }
 
 function lineButton(){
@@ -20,6 +22,7 @@ function lineButton(){
     lineMode = true;
     squareMode = false;
     polygonMode = false;
+    colorMode = false;
 }
 
 function squareButton(){
@@ -28,6 +31,7 @@ function squareButton(){
     lineMode = false;
     squareMode = true;
     polygonMode = false;
+    colorMode = false;
 }
 
 var numVert;
@@ -38,7 +42,16 @@ function polygonButton(){
     lineMode = false;
     squareMode = false;
     polygonMode = true;
+    colorMode = false;
 
     numVert = Number(prompt("Please enter number of vertices of your polygon", 3));
 }
 
+function colorButton(){
+    cursorMode = false;
+    resizeMode = false;
+    lineMode = false;
+    squareMode = false;
+    polygonMode = false;
+    colorMode = true;
+}

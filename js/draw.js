@@ -170,6 +170,10 @@ canvasElem.addEventListener('mousedown', (e) =>
                 vertexCount = 0;
             }
         }
+
+        else if (colorMode == true){
+            
+        }
         draw();
     }
     //console.log(vertices);
