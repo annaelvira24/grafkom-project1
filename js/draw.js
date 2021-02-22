@@ -175,7 +175,9 @@ canvasElem.addEventListener('mousedown', (e) =>
             var R = numR/255;
             var G = numG/255;
             var B = numB/255;
-            colors.push(R,G,B);
+            if(objects[selectedObject].name == "polygon"){
+                colors.push(R,G,B);
+            }
         }
         draw();
     }
@@ -284,6 +286,14 @@ canvasElem.addEventListener('mousemove', (e) => {
             }
             draw();
         }
+        /*else if (colorMode && selectedObject != -1){
+            if(objects[selectedObject].name == "polygon"){
+                var R = numR/255;
+                var G = numG/255;
+                var B = numB/255;
+                colors.push(R,G,B);
+            }
+        }*/
     }
     
 });
