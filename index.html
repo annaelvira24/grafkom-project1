@@ -13,21 +13,25 @@
 
     <body>
         <div class="navbar">
-            <button id = "button-draw" onclick="cursorButton()">Cursor</button>
-            <button id = "button-draw" onclick="resizeButton()">Resize</button>
+            <h3>TOOLS</h3>
+            <button id = "button-mouse" onclick="cursorButton()">Cursor</button>
+            <button id = "button-mouse" onclick="resizeButton()">Resize</button>
             <button id = "button-draw" onclick="lineButton()">Line</button>
             <button id = "button-draw" onclick="squareButton()">Square</button>
             <button id = "button-draw" onclick="polygonButton()">Polygon</button>
             <button id = "button-help">Help</button>
-            <button id = "button-file" onclick="saveData()">Save</button>
-            <button id = "button-file" onclick="loadData()">Load</button>
+            
         </div>
         <div class="title">
-            WebGL Paint
+            WebGL PAINT BRUSH
         </div>
         <canvas id="glcanvas" width="pixel">
             Oops ... your browser doesn't support the HTML5 canvas element
         </canvas>
+        <div class = "row">
+            <button class = "button-file" id = "button-save" onclick="saveData()">Save</button>
+            <button class = "button-file" id = "button-load" onclick="loadData()">Load</button>
+        </div>
         <textarea id="jsonText" placeholder="Copy your json file's content here."></textarea>
     </body>
 
