@@ -18,6 +18,14 @@ function saveData(){
 }
 
 function loadData(){
+    if(area.style.display === "block"){
+        let r = confirm("Press OK to load from local file or Cancel to load from browser editor");
+        if (r == true) {
+            putData(area.value);
+            area.style.display = "none";
+            return;
+        }
+    }
     fileInput.click();
 }
 function putData(fileContent){
