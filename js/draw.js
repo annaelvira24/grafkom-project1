@@ -172,7 +172,10 @@ canvasElem.addEventListener('mousedown', (e) =>
         }
 
         else if (colorMode == true){
-            
+            var R = numR/255;
+            var G = numG/255;
+            var B = numB/255;
+            colors.push(R,G,B);
         }
         draw();
     }
