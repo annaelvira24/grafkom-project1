@@ -1,5 +1,7 @@
 
 var area = document.getElementById('jsonText');
+let fileInput = document.createElement('input');
+fileInput.type="file";
 area.style.display = "none";
 
 function saveData(){
@@ -16,14 +18,11 @@ function saveData(){
 }
 
 function loadData(){
-    if(area.style.display === "none"){
-        area.value = "";
-        area.style.display = "block";
-        return;
-    }
-    
+    fileInput.click();
+}
+function putData(fileContent){
     try{
-        encodedData = encodingData(JSON.parse(area.value));
+        encodedData = encodingData(fileContent);
     }catch(err){
         console.log(err);
         alert("Please check your JSON text");
@@ -35,6 +34,14 @@ function loadData(){
     area.style.display = "none";
     draw();
 }
+
+fileInput.addEventListener('change', function() { 
+    var fr=new FileReader(); 
+    fr.onload=function(){ 
+        putData(fr.result);
+    } 
+    fr.readAsText(this.files[0]); 
+}) 
 
 function downloadData(exportObj){
     var filename = prompt("Please enter JSON filename", "vertexData");
@@ -50,7 +57,7 @@ function downloadData(exportObj){
 }
 
 function encodingData(jsonString){
-    listObject = JSON.parse(area.value);
+    listObject = JSON.parse(jsonString);
     result = {
         obj : [],
         ver : [],
