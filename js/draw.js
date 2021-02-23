@@ -71,7 +71,6 @@ function draw(){
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
 
     for (var i = 0; i<objects.length; i++) {
-        //console.log(objects[i]);
         gl.drawArrays(objects[i].mode, objects[i].off, objects[i].count);
     }
 }
