@@ -112,3 +112,8 @@ textarea {
   border: 1px solid #ccc;
   border-radius: 10px;
 }
+
+a.helplink{
+  text-decoration: none;
+  color: black;
+}
