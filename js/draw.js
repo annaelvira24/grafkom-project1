@@ -101,7 +101,6 @@ canvasElem.addEventListener('mousedown', (e) =>
             console.log(selectedVertex);
             console.log(objects);
             for(var i = objects.length-1; i >= 0; i--){
-                //console.log(objects[i].off)
                 if(objects[i].off*2 <= selectedVertex){
                     selectedObject = i;
                     break;
@@ -110,17 +109,7 @@ canvasElem.addEventListener('mousedown', (e) =>
             }
     
         }
-        /*var R = numR/255;
-        var G = numG/255;
-        var B = numB/255;
-        if(objects[selectedObject].name == "polygon"){
-            objects[selectedObject].colorR = R;
-            objects[selectedObject].colorG = G;
-            objects[selectedObject].colorB = B;
-            colors.push(R,G,B);
-        }
-        draw();*/
-        if(objects[selectedObject].name == "polygon"){
+        if(colorMode && objects[selectedObject].name == "polygon"){
             var numR;
             var numG;
             var numB;
@@ -130,10 +119,12 @@ canvasElem.addEventListener('mousedown', (e) =>
             var R = numR/255;
             var G = numG/255;
             var B = numB/255;
+            console.log("heyy");
+            console.log(objects[selectedObject].off);
             for (var i = 0; i< objects[selectedObject].count*3; i+=3) {          
-                colors[objects[selectedObject].off+i] = R;
-                colors[objects[selectedObject].off+i+1] = G;
-                colors[objects[selectedObject].off+i+2] = B;
+                colors[objects[selectedObject].off*3+i] = R;
+                colors[objects[selectedObject].off*3+i+1] = G;
+                colors[objects[selectedObject].off*3+i+2] = B;
             }
         }
         draw();
@@ -151,10 +142,7 @@ canvasElem.addEventListener('mousedown', (e) =>
                     "name" : "line",
                     "mode" : gl.LINES,
                     "off" : offset,
-                    "count" : 2/*,
-                    "colorR" : 0,
-                    "colorG" : 0,
-                    "colorB" : 0,*/
+                    "count" : 2
                 });
                 offset += 2;
                 vertexCount = 0;
@@ -179,10 +167,7 @@ canvasElem.addEventListener('mousedown', (e) =>
                     "name" : "square",
                     "mode" : gl.TRIANGLE_STRIP,
                     "off" : offset,
-                    "count" : 4/*,
-                    "colorR" : 0,
-                    "colorG" : 0,
-                    "colorB" : 0,*/
+                    "count" : 4
                 });
                 offset += 4;
                 vertexCount = 0;
@@ -199,31 +184,13 @@ canvasElem.addEventListener('mousedown', (e) =>
                     "name" : "polygon",
                     "mode" : gl.TRIANGLE_FAN,
                     "off" : offset,
-                    "count" : numVert,
-                    "colorR" : 0,
-                    "colorG" : 0,
-                    "colorB" : 1
+                    "count" : numVert
                 });
                 //colors.push(objects.colorR,objects.colorG,objects.colorB);
                 offset += numVert;
                 vertexCount = 0;
             }
-            
-            //colors.push(objects.colorR,objects.colorG,objects.colorB);
         }
-
-        /*else if (colorMode == true){
-            var R = numR/255;
-            var G = numG/255;
-            var B = numB/255;
-            if(objects[selectedObject].name == "polygon"){
-                objects[selectedObject].colorR = R;
-                objects[selectedObject].colorG = G;
-                objects[selectedObject].colorB = B;
-                colors.push(R,G,B);
-            }
-            draw();
-        }*/
         draw();
     }
     //console.log(vertices);
