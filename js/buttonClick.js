@@ -47,9 +47,9 @@ function polygonButton(){
     numVert = Number(prompt("Please enter number of vertices of your polygon", 3));
 }
 
-var numR;
+/*var numR;
 var numG;
-var numB;
+var numB;*/
 
 function colorButton(){
     cursorMode = false;
@@ -59,7 +59,7 @@ function colorButton(){
     polygonMode = false;
     colorMode = true;
 
-    numR = Number(prompt("R :", 0));
+    /*numR = Number(prompt("R :", 0));
     numG = Number(prompt("G :", 0));
-    numB = Number(prompt("B :", 0));
+    numB = Number(prompt("B :", 0));*/
 }

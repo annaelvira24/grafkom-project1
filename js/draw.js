@@ -108,6 +108,7 @@ canvasElem.addEventListener('mousedown', (e) =>
                 }
                 selectedObject = 0;
             }
+    
         }
         /*var R = numR/255;
         var G = numG/255;
@@ -119,6 +120,23 @@ canvasElem.addEventListener('mousedown', (e) =>
             colors.push(R,G,B);
         }
         draw();*/
+        if(objects[selectedObject].name == "polygon"){
+            var numR;
+            var numG;
+            var numB;
+            numR = Number(prompt("R :", 0));
+            numG = Number(prompt("G :", 0));
+            numB = Number(prompt("B :", 0));
+            var R = numR/255;
+            var G = numG/255;
+            var B = numB/255;
+            for (var i = 0; i< objects[selectedObject].count*3; i+=3) {          
+                colors[objects[selectedObject].off+i] = R;
+                colors[objects[selectedObject].off+i+1] = G;
+                colors[objects[selectedObject].off+i+2] = B;
+            }
+        }
+        draw();
         backupVertices = vertices.slice();
     }
     else if(!cursorMode){
@@ -174,7 +192,7 @@ canvasElem.addEventListener('mousedown', (e) =>
 
         else if(polygonMode == true){
             vertexCount += 1;
-            
+            colors.push(0,0,1);
             if(vertexCount == numVert){
                 //colors.push(0,0,1);
                 objects.push({
@@ -190,7 +208,7 @@ canvasElem.addEventListener('mousedown', (e) =>
                 offset += numVert;
                 vertexCount = 0;
             }
-            colors.push(1,0,0);
+            
             //colors.push(objects.colorR,objects.colorG,objects.colorB);
         }
 
@@ -313,7 +331,7 @@ canvasElem.addEventListener('mousemove', (e) => {
             }
             draw();
         }
-        else if (colorMode && selectedObject != -1){
+        /*else if (colorMode && selectedObject != -1){
             var R = numR/255;
             var G = numG/255;
             var B = numB/255;
@@ -324,7 +342,7 @@ canvasElem.addEventListener('mousemove', (e) => {
             }
             colors.push(R,G,B);
             draw();
-        }
+        }*/
     }
     
 });
