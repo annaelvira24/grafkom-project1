@@ -3,7 +3,6 @@ function getMousePosition(canvas, event) {
     let rect = canvas.getBoundingClientRect(); 
     let x = ((event.clientX - rect.left)/(canvas.width))*2-1; 
     let y = -((event.clientY - rect.top)/(canvas.height))*2+1; 
-    //console.log("Coordinate x: " + x, "Coordinate y: " + y);
     temp.push(x);
     temp.push(y)
     return(temp);
@@ -110,7 +109,7 @@ canvasElem.addEventListener('mousedown', (e) =>
     
         }
         if(colorMode && objects[selectedObject].name == "polygon"){
-            var tempColor = prompt("Red, Green, Blue value (antara 0-255) dipisahkan dengan tanda koma:", "0,0,0");
+            var tempColor = prompt("Red, Green, Blue value (0-255) separated with coma , :", "0,0,0");
             var colorChange = tempColor.split(",");
             console.log(objects[selectedObject].off);
             for (var i = 0; i< objects[selectedObject].count*3; i+=3) {          
@@ -172,22 +171,18 @@ canvasElem.addEventListener('mousedown', (e) =>
             vertexCount += 1;
             colors.push(0,0,1);
             if(vertexCount == numVert){
-                //colors.push(0,0,1);
                 objects.push({
                     "name" : "polygon",
                     "mode" : gl.TRIANGLE_FAN,
                     "off" : offset,
                     "count" : numVert
                 });
-                //colors.push(objects.colorR,objects.colorG,objects.colorB);
                 offset += numVert;
                 vertexCount = 0;
             }
         }
         draw();
     }
-    //console.log(vertices);
-
 });
 
 canvasElem.addEventListener('mousemove', (e) => {
@@ -243,13 +238,8 @@ canvasElem.addEventListener('mousemove', (e) => {
                 }
             }
             else if(objects[selectedObject].name == "square"){
-                
-                //let vertexTemp = vertices.slice(objects[selectedObject].offset, objects[selectedObject].offset+8);
-
                 let centerX = (backupVertices[objects[selectedObject].off*2] + backupVertices[objects[selectedObject].off*2+6])/2;
                 let centerY = (backupVertices[objects[selectedObject].off*2+1] + backupVertices[objects[selectedObject].off*2+7])/2;
-                // let centerX = (vertexTemp[0] + vertexTemp[6])/2;
-                // let centerY = (vertexTemp[1] + vertexTemp[7])/2;
 
                 let scaleX = (Math.abs(vec2[0] - centerX))/(Math.abs(vec[0] - centerX));
                 let scaleY = (Math.abs(vec2[1] - centerY))/(Math.abs(vec[1] - centerY));
@@ -291,18 +281,6 @@ canvasElem.addEventListener('mousemove', (e) => {
             }
             draw();
         }
-        /*else if (colorMode && selectedObject != -1){
-            var R = numR/255;
-            var G = numG/255;
-            var B = numB/255;
-            if(objects[selectedObject].name == "polygon"){
-                objects[selectedObject].colorR = R;
-                objects[selectedObject].colorG = G;
-                objects[selectedObject].colorB = B;
-            }
-            colors.push(R,G,B);
-            draw();
-        }*/
     }
     
 });
@@ -310,18 +288,5 @@ canvasElem.addEventListener('mousemove', (e) => {
 canvasElem.addEventListener('mouseup', (e) => {
     vec = null;
     backupVertices = null;
-    // }
-    // else if(resizeMode){
-    //     let vec3 = getMousePosition(canvasElem, e);
-    //     if(objects[selectedObject].mode == "line"){
-    //         vertices[selectedVertex] = vec3[0];
-    //         vertices[selectedVertex+1] = vec3[1];
-    //     }
-    //     else if(objects[selectedObject].mode == "square"){
-
-    //         vertices[objects[selectedObject].offset]
-    //     }
-    // }
-
 });
 
