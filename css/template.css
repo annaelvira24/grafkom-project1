@@ -117,3 +117,27 @@ a.helplink{
   text-decoration: none;
   color: black;
 }
+
+.header{
+  text-align: center;
+  font-size: 20px;
+  font-family: 'Segoe UI';
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.table{
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  border: 1px solid rgb(122, 114, 114);
+  border-radius: 5px;
+}
+
+td, th{
+  padding: 10px;
+}
+
+th{
+  background-color: rgb(127, 225, 255);
+}
