@@ -110,27 +110,20 @@ canvasElem.addEventListener('mousedown', (e) =>
     
         }
         if(colorMode && objects[selectedObject].name == "polygon"){
-            var numR;
-            var numG;
-            var numB;
-            numR = Number(prompt("R :", 0));
-            numG = Number(prompt("G :", 0));
-            numB = Number(prompt("B :", 0));
-            var R = numR/255;
-            var G = numG/255;
-            var B = numB/255;
-            console.log("heyy");
+            var tempColor = prompt("Red, Green, Blue value (antara 0-255) dipisahkan dengan tanda koma:", "0,0,0");
+            var colorChange = tempColor.split(",");
             console.log(objects[selectedObject].off);
             for (var i = 0; i< objects[selectedObject].count*3; i+=3) {          
-                colors[objects[selectedObject].off*3+i] = R;
-                colors[objects[selectedObject].off*3+i+1] = G;
-                colors[objects[selectedObject].off*3+i+2] = B;
+                colors[objects[selectedObject].off*3+i] = Number(colorChange[0]);
+                colors[objects[selectedObject].off*3+i+1] = Number(colorChange[1]);
+                colors[objects[selectedObject].off*3+i+2] = Number(colorChange[2]);
             }
+            vec = null;
         }
         draw();
         backupVertices = vertices.slice();
     }
-    else if(!cursorMode){
+    else {
         vertices.push(vec[0]);
         vertices.push(vec[1]);
         if(lineMode == true){
