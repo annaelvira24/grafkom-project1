@@ -268,8 +268,8 @@ canvasElem.addEventListener('mousemove', (e) => {
                 if((vec2[1]-centerY)/(vec[1]-centerY)<(vec2[0]-centerX)/(vec[0]-centerX)){
                     sinArc = -sinArc;
                 }
-                if((selectedVertex-selectedObject)==0||(selectedVertex-selectedObject)==6){
-                    console.log("woii")
+                console.log(selectedVertex-objects[selectedObject].off*2)
+                if((selectedVertex-objects[selectedObject].off*2)==4||(selectedVertex-objects[selectedObject].off*2)==6){
                     sinArc = -sinArc;
                 }
 
