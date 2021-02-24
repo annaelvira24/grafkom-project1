@@ -248,12 +248,16 @@ canvasElem.addEventListener('mousemove', (e) => {
                 let c2 = Math.pow(vec[0]-vec2[0],2) + Math.pow(vec[1]-vec2[1],2);
                 let cosArc = (a2+b2-c2)/(2*Math.sqrt(a2*b2));
                 let sinArc = Math.sqrt(1-cosArc*cosArc);
+                // cek arah vec2
+                if((vec2[1]-centerY)/(vec[1]-centerY)<(vec2[0]-centerX)/(vec[0]-centerX)){
+                    sinArc = -sinArc;
+                }
 
-                let oldX = scaleX;
-                let oldY = scaleY;
+                let normalizedX = cosArc*(vec2[0]-centerX)-sinArc*(vec2[1]-centerY);
+                let normalizedY = sinArc*(vec2[0]-centerX)+cosArc*(vec2[1]-centerY);
 
-                scaleX = cosArc*oldX-sinArc*oldY;
-                scaleY = sinArc*oldX+cosArc*oldY;
+                scaleX = Math.abs(normalizedX/(vec[0] - centerX));
+                scaleY = Math.abs(normalizedY/(vec[1] - centerY));
 
                 var tempVertices = [];
                 for(var i = objects[selectedObject].off*2; i < objects[selectedObject].off*2 + objects[selectedObject].count*2; i+=2){
