@@ -243,39 +243,37 @@ canvasElem.addEventListener('mousemove', (e) => {
                 let scaleX = (Math.abs(vec2[0] - centerX))/(Math.abs(vec[0] - centerX));
                 let scaleY = (Math.abs(vec2[1] - centerY))/(Math.abs(vec[1] - centerY));
 
+                let shearAllowed = false
+                if(!shearAllowed){
+                    let a2 = Math.pow(vec[0]-centerX,2) + Math.pow(vec[1]-centerY,2);
+                    let b2 = Math.pow(vec2[0]-centerX,2) + Math.pow(vec2[1]-centerY,2);
+                    let c2 = Math.pow(vec[0]-vec2[0],2) + Math.pow(vec[1]-vec2[1],2);
+                    let cosArc = (a2+b2-c2)/(2*Math.sqrt(a2*b2));
+                    let sinArc = Math.sqrt(1-cosArc*cosArc);
+
+                    let oldX = scaleX;
+                    let oldY = scaleY;
+
+                    scaleX = cosArc*oldX-sinArc*oldY;
+                    scaleY = sinArc*oldX+cosArc*oldY;
+                }
+
                 var tempVertices = [];
-                for(var i = objects[selectedObject].off*2; i < objects[selectedObject].off*2 + objects[selectedObject].count; i++){
-                    tempVertices.push(vertices[i]);
+                for(var i = objects[selectedObject].off*2; i < objects[selectedObject].off*2 + objects[selectedObject].count*2; i+=2){
+                    if((i-selectedObject)%2 == 0){
+                        tempVertices.push((backupVertices[i]-centerX)*scaleX+centerX);
+                        tempVertices.push((backupVertices[i+1]-centerY)*scaleY+centerY);
+                    }else{
+                        tempVertices.push((backupVertices[i]-centerX)*scaleY+centerX);
+                        tempVertices.push((backupVertices[i+1]-centerY)*scaleX+centerY);
+                    }
                 }
-
-                for(var i = 0; i<tempVertices.length; i+=2){
-                    tempVertices[i] -= centerX;
-                    tempVertices[i+1] -= centerY;
-                }
-
-                for(var i = 0; i<tempVertices.length; i+=2){
-                    tempVertices[i] = (backupVertices[objects[selectedObject].off*2+i]-centerX)*scaleX;
-                    tempVertices[i+1] =(backupVertices[objects[selectedObject].off*2+i+1]-centerY)*scaleY;
-                }
-
-                for(var i = 0; i<tempVertices.length; i+=2){
-                    tempVertices[i] += centerX;
-                    tempVertices[i+1] += centerY;
-                }
-
-                let deltaX = (tempVertices[2] - tempVertices[0]) * (100/48);
-                let deltaY = (tempVertices[3] - tempVertices[1]) * 0.48;
-                tempVertices.push(tempVertices[0] - deltaY);
-                tempVertices.push(tempVertices[1] + deltaX);
-                tempVertices.push(tempVertices[2] - deltaY);
-                tempVertices.push(tempVertices[3] + deltaX);
 
                 var j = 0;
                 for(var i = objects[selectedObject].off*2; i < objects[selectedObject].off*2 + objects[selectedObject].count*2; i++){  
                     vertices[i] = tempVertices[j];
                     j++;
                 }
-
 
             }
             draw();
