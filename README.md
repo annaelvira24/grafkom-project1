@@ -7,7 +7,7 @@ Website 2D CAD (Computer-Aided Design) dengan menggunakan WebGL murni tanpa libr
 
 ## Instalasi
 1. Clone repository ini
-2. Buka file index.html yang terdapat pada folder root menggunakan web browser Anda.
+2. Buka file index.html yang terdapat pada folder src menggunakan web browser Anda.
 3. Pastikan canvas berhasil ditampilkan pada halaman web dan tidak ada pesan error.
 
 ## Authors
