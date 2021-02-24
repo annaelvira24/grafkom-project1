@@ -240,23 +240,20 @@ canvasElem.addEventListener('mousemove', (e) => {
                 let centerX = (backupVertices[objects[selectedObject].off*2] + backupVertices[objects[selectedObject].off*2+6])/2;
                 let centerY = (backupVertices[objects[selectedObject].off*2+1] + backupVertices[objects[selectedObject].off*2+7])/2;
 
-                let scaleX = (Math.abs(vec2[0] - centerX))/(Math.abs(vec[0] - centerX));
-                let scaleY = (Math.abs(vec2[1] - centerY))/(Math.abs(vec[1] - centerY));
+                let scaleX = (vec2[0] - centerX)/(vec[0] - centerX);
+                let scaleY = (vec2[1] - centerY)/(vec[1] - centerY);
 
-                let shearAllowed = false
-                if(!shearAllowed){
-                    let a2 = Math.pow(vec[0]-centerX,2) + Math.pow(vec[1]-centerY,2);
-                    let b2 = Math.pow(vec2[0]-centerX,2) + Math.pow(vec2[1]-centerY,2);
-                    let c2 = Math.pow(vec[0]-vec2[0],2) + Math.pow(vec[1]-vec2[1],2);
-                    let cosArc = (a2+b2-c2)/(2*Math.sqrt(a2*b2));
-                    let sinArc = Math.sqrt(1-cosArc*cosArc);
+                let a2 = Math.pow(vec[0]-centerX,2) + Math.pow(vec[1]-centerY,2);
+                let b2 = Math.pow(vec2[0]-centerX,2) + Math.pow(vec2[1]-centerY,2);
+                let c2 = Math.pow(vec[0]-vec2[0],2) + Math.pow(vec[1]-vec2[1],2);
+                let cosArc = (a2+b2-c2)/(2*Math.sqrt(a2*b2));
+                let sinArc = Math.sqrt(1-cosArc*cosArc);
 
-                    let oldX = scaleX;
-                    let oldY = scaleY;
+                let oldX = scaleX;
+                let oldY = scaleY;
 
-                    scaleX = cosArc*oldX-sinArc*oldY;
-                    scaleY = sinArc*oldX+cosArc*oldY;
-                }
+                scaleX = cosArc*oldX-sinArc*oldY;
+                scaleY = sinArc*oldX+cosArc*oldY;
 
                 var tempVertices = [];
                 for(var i = objects[selectedObject].off*2; i < objects[selectedObject].off*2 + objects[selectedObject].count*2; i+=2){
