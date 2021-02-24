@@ -269,7 +269,7 @@ canvasElem.addEventListener('mousemove', (e) => {
                     sinArc = -sinArc;
                 }
                 console.log(selectedVertex-objects[selectedObject].off*2)
-                if((selectedVertex-objects[selectedObject].off*2)==4||(selectedVertex-objects[selectedObject].off*2)==6){
+                if((selectedVertex-objects[selectedObject].off*2)==6||(selectedVertex-objects[selectedObject].off*2)==0){
                     sinArc = -sinArc;
                 }
 
